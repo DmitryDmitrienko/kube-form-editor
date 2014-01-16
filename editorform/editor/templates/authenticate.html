@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <form action="{% url "login" %}" method="post" class="forms forms-columnar"> {% csrf_token %}
+        {% if form.errors and '__all__' in form.errors %}
+            <ul class="lists-simple">
+                {% for e in form.errors.values %}
+                    <li><p class="error">{{ e.as_text }}</p></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% include 'input_field.html' with f=form.username %}
+        {% include 'input_field.html' with f=form.password %}
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">Enter</button>
+                <a href="{% url "createuser" %}">Create new user</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

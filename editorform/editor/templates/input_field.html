@@ -1,0 +1,7 @@
+<p>
+    <label for="{{ f.id_for_label }}">{{ f.label|capfirst }}</label>
+    {{ f }}
+    {% for error in f.errors %}
+        <span class="error">{{ error|escape }}</span>
+    {% endfor %}
+</p>

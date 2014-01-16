@@ -16,6 +16,12 @@
                     <li><a href="/">Simple kube form editor</a></li>
                 </ul>
             </nav>
+            <ul id="auth-area">
+                {% if user.id != None %}
+                    <p class="bold">{{ user.username }}</p>&nbsp;
+                    <a href="{% url 'logout' %}">exit</a>
+                {% endif %}
+            </ul>
 
         </header>
 
