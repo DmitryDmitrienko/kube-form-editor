@@ -8,9 +8,12 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 
 from django.conf.urls import patterns, url
 
-from .view.views import MainView, CreateFormView
+from .view.views import MainView, CreateFormView, AuthenticateView
+from django.contrib.auth.decorators import login_required
 
 url_editor = patterns('',
-                      url(r'^$', MainView.as_view(), name="index"),
-                      url(r'^createform$', CreateFormView.as_view(), name='createform')
+                      url(r'^login$', AuthenticateView.as_view(), name='login'),
+                      url(r'^logout$', 'editor.view.views.logout', name='logout'),
+                      url(r'^$', login_required(MainView.as_view()), name="index"),
+                      url(r'^createform$', login_required(CreateFormView.as_view()), name='createform'),
 )

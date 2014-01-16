@@ -1,6 +1,6 @@
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
-from django.contrib.auth.views import auth_login
+from django.contrib.auth.views import auth_login, logout_then_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -24,6 +24,10 @@ class AuthenticateView(FormView):
             return redirect(self.request.GET['next'])
         else:
             return super(AuthenticateView, self).form_valid(form)
+
+
+def logout(request):
+    return logout_then_login(request, login_url='/login')
 
 
 class MainView(TemplateView):
