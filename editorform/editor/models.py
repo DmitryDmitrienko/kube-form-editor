@@ -6,6 +6,7 @@ class FormModel(models.Model):
     name = models.CharField(max_length=60, verbose_name=u'name form')
     user = models.ForeignKey(User, verbose_name=u'user form')
     created = models.DateField(auto_now_add=True, verbose_name=u'date created')
+    description = models.TextField(verbose_name=u'description of form')
 
     def __unicode__(self):
         return self.name

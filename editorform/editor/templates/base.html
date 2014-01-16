@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <link href="{% static 'css/kube.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/editor.css' %}" rel="stylesheet">
+    <title>Simple kube form editor</title>
+</head>
+<body>
+<div id="cover-wrap">
+    <div class="wrap">
+        <header id="header">
+            <nav id="nav">
+                <ul>
+                    <li><a href="/">Simple kube form editor</a></li>
+                </ul>
+            </nav>
+
+        </header>
+
+    </div>
+</div>
+<div class="units-row" id="conteiner">
+    <div class="unit-centered unit-60">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
