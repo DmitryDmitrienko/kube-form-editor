@@ -1,11 +1,13 @@
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 
 from editor.models import FormModel
+from editor.forms import CreateForm
 
 
 class AuthenticateView(FormView):
@@ -35,3 +37,25 @@ class MainView(TemplateView):
                 'forms': FormModel.objects.filter(user=self.request.user).select_related('id', 'name', 'description')
             })
         return context
+
+
+class CreateFormView(CreateView):
+    template_name = "createform.html"
+    form_class = CreateForm
+    model = FormModel
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        u = self.request.user
+        if not u.is_anonymous():
+            data = form.cleaned_data
+            data.update({
+                'user': self.request.user
+            })
+            self.object = self.model(**data)
+            self.object.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(CreateFormView, self).form_invalid(form)

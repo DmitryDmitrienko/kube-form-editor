@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <a href="#" class="btn btn-blue">Add form</a>
+    <a href="{% url 'createform' %}" class="btn btn-blue">Add form</a>
     {% if forms %}
         <table class="width-100 table-simple">
             <thead>

@@ -8,8 +8,9 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 
 from django.conf.urls import patterns, url
 
-from .view.views import MainView
+from .view.views import MainView, CreateFormView
 
 url_editor = patterns('',
                       url(r'^$', MainView.as_view(), name="index"),
+                      url(r'^createform$', CreateFormView.as_view(), name='createform')
 )
