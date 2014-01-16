@@ -1,4 +1,4 @@
-from django.views.generic.edit import FormView, CreateView, UpdateView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import auth_login, logout_then_login
 from django.contrib.auth.forms import AuthenticationForm
@@ -71,6 +71,16 @@ class UpdateFormView(UpdateView):
     model = FormModel
     pk_url_kwarg = 'form_id'
     context_object_name = 'form'
+
+    def get_success_url(self):
+        return reverse('index')
+
+
+class DeleteFormView(DeleteView):
+    template_name = "deleteform.html"
+    model = FormModel
+    pk_url_kwarg = "form_id"
+    context_object_name = "form"
 
     def get_success_url(self):
         return reverse('index')

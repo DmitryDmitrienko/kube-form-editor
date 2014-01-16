@@ -17,7 +17,7 @@
                     <td>{{ form.description|truncatechars:50 }}</td>
                     <td>
                         <a href="{% url 'updateform' form.id %}" class="btn btn-blue">Edit</a>
-                        <a href="#" class="btn btn-red">Delete</a>
+                        <a href="{% url 'deleteform' form.id %}" class="btn btn-red">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
