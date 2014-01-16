@@ -13,4 +13,4 @@ from .models import FormModel
 class CreateForm(forms.ModelForm):
     class Meta:
         model = FormModel
-        fields = ['name']
+        fields = ['name', 'description']

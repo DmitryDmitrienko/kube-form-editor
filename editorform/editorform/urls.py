@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from editorform.editor.urls import url_editor
+from editor.urls import url_editor
 
 admin.autodiscover()
 

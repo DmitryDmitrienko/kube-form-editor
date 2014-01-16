@@ -8,6 +8,8 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 
 from django.conf.urls import patterns, url
 
+from .view.views import MainView
+
 url_editor = patterns('',
-                      url(r'^$', '', name="home"),
+                      url(r'^$', MainView.as_view(), name="index"),
 )

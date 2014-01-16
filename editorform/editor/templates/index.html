@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-    <table class="width-100 table-simple">
-        <thead>
-        <tr>
-            <th>Form name</th>
-            <th>Description</th>
-            <th>Option</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            {% for form in forms %}
-                <td><a href="{% url 'editform' form.id %}">{{ form.name }}</a></td>
-                <td>{{ form.description }}</td>
-                <td>
-                    <a href="{% url 'editdescription' form.id %}" class="btn btn-blue">Edit</a>
-                    <a href="{% url 'deleteform' form.id %}" class="btn btn-red">Edit</a>
-                </td>
-            {% endfor %}
-        </tr>
-        </tbody>
-    </table>
+    <a href="#" class="btn btn-blue">Add form</a>
+    {% if forms %}
+        <table class="width-100 table-simple">
+            <thead>
+            <tr>
+                <th>Form name</th>
+                <th>Description</th>
+                <th>Option</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for form in forms %}
+                    <td><a href="{% url 'editform' form.id %}">{{ form.name }}</a></td>
+                    <td>{{ form.description }}</td>
+                    <td>
+                        <a href="{% url 'editdescription' form.id %}" class="btn btn-blue">Edit</a>
+                        <a href="{% url 'deleteform' form.id %}" class="btn btn-red">Edit</a>
+                    </td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
