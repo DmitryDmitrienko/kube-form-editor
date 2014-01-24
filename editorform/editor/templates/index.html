@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-                {% for form in forms %}
+            {% for form in forms %}
                 <tr>
                     <td><a href="{% url 'form' form.id %}">{{ form.name }}</a></td>
                     <td>{{ form.description|truncatechars:50 }}</td>
@@ -29,7 +29,7 @@
                         <a href="{% url 'share' form.id %}" class="btn btn-orange">Share</a>
                     </td>
                 </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
     {% endif %}

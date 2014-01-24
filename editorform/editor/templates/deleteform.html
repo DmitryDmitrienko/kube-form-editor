@@ -2,10 +2,13 @@
 {% block content %}
     <form action="" method="post" class="forms forms-columnar"> {% csrf_token %}
         <p class="bold">Name: {{ form.name }}</p>
+
         <p class="bold">Description: </p><br>
+
         <p>
             {{ form.description }}
         </p>
+
         <p>
             <input type="submit" class="btn btn-red" value="Delete form">
         </p>
