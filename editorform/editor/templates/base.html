@@ -18,7 +18,7 @@
             </nav>
             <ul id="auth-area">
                 {% if user.id != None %}
-                    <p class="bold">{{ user.username }}</p>&nbsp;
+                    <h4><p class="bold">{{ user.username }}</p>&nbsp;</h4>
                     <a href="{% url 'logout' %}">exit</a>
                 {% endif %}
             </ul>
