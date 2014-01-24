@@ -39,10 +39,12 @@ class PermissionsRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object_form(**kwargs)
         if obj is not None:
-            if request.user.has_perms(str_permission(request.user.username, obj.id, obj.name)):
+            str = "editor." + str_permission(request.user.username, obj.id, obj.name)
+            if request.user.is_superuser is False and request.user.has_perm(str):
                 messages.success(
                     request,
                     u'Расшаренная форма')
+                return super(PermissionsRequiredMixin, self).dispatch(request, *args, **kwargs)
             elif obj.user != request.user:
                 messages.error(
                     request,
@@ -152,6 +154,14 @@ class ShareView(PermissionsRequiredMixin, FormView):
             permission = Permission.objects.create(codename=s,
                                                    name=title,
                                                    content_type=content_type)
+            u.user_permissions.add(permission)
+
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return self.form_class(**kwargs)
 
 
 class FormView(PermissionsRequiredMixin, FormView):

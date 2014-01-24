@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message message-{% if message.tags %}{{ message.tags }}{% endif %}">
+                <span class="close"></span>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <form action="" method="post" class="forms forms-columnar"> {% csrf_token %}
         {% if form.errors and '__all__' in form.errors %}
             <ul class="lists-simple">

@@ -18,14 +18,24 @@ class FormForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
-def get_users():
-    users = User.objects.select_related('id', 'username')
+def get_users(user=None):
+    if user is not None:
+        users = User.objects.exclude(id=user.id).select_related('id', 'username')
+    else:
+        users = User.objects.select_related('id', 'username')
     return [(u.id, u.username) for u in users]
 
 
 class FormChoiceUsers(forms.Form):
     users_for_share = forms.MultipleChoiceField(choices=get_users(), required=False)
     users_share = forms.MultipleChoiceField(choices=get_users(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(FormChoiceUsers, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['users_for_share'].choices = get_users(user)
+            self.fields['users_share'].choices = get_users(user)
 
 
 class FormChoiceForm(forms.Form):
