@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <form action="" method="post" class="forms forms-columnar"> {% csrf_token %}
+        {% if form.errors and '__all__' in form.errors %}
+            <ul class="lists-simple">
+                {% for e in form.errors.values %}
+                    <li><p class="error">{{ e.as_text }}</p></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <ul class="blocks-3">
+            <li>{% include 'input_field.html' with f=form.users_for_share %}</li>
+            <li>
+                <input type="submit" name="share_to" class="btn btn-blue" value="->">
+                <input type="submit" name="share_delete" class="btn btn-blue" value="<-">
+            </li>
+            <li>{% include 'input_field.html' with f=form.users_share %}</li>
+        </ul>
+    </form>
+{% endblock %}

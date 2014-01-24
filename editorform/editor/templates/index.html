@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message message-{% if message.tags %}{{ message.tags }}{% endif %}">
+                <span class="close"></span>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <a href="{% url 'createform' %}" class="btn btn-green">Add form</a>
     {% if forms %}
         <table class="width-100 table-simple">
@@ -13,11 +21,12 @@
             <tbody>
                 {% for form in forms %}
                 <tr>
-                    <td><a href="#">{{ form.name }}</a></td>
+                    <td><a href="{% url 'form' form.id %}">{{ form.name }}</a></td>
                     <td>{{ form.description|truncatechars:50 }}</td>
                     <td>
                         <a href="{% url 'updateform' form.id %}" class="btn btn-blue">Edit</a>
                         <a href="{% url 'deleteform' form.id %}" class="btn btn-red">Delete</a>
+                        <a href="{% url 'share' form.id %}" class="btn btn-orange">Share</a>
                     </td>
                 </tr>
                 {% endfor %}
