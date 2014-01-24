@@ -9,6 +9,8 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 from django import forms
 from django.contrib.auth.models import User
 
+from django.contrib.auth.models import Permission
+
 from .models import FormModel
 
 
@@ -18,12 +20,23 @@ class FormForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
-def get_users(user=None):
-    if user is not None:
-        users = User.objects.exclude(id=user.id).select_related('id', 'username')
+def get_users(user=None, form=None):
+    if user is not None and form is not None:
+        try:
+            permissions = Permission.objects.filter(
+                codename__icontains="can_edit_%s_%s" % (form.id, form.name)).select_related('codename')
+            user_list = [
+                p.codename.split('_')[0]
+                for p in permissions
+            ]
+            u_p = [(u.id, u.username) for u in User.objects.exclude(id=user.id).filter(username__in=user_list)]
+            u = [(u.id, u.username) for u in User.objects.exclude(username__in=user_list).exclude(id=user.id)]
+            return u_p, u
+        except Exception as e:
+            print e.message
+            return [], []
     else:
-        users = User.objects.select_related('id', 'username')
-    return [(u.id, u.username) for u in users]
+        return [], []
 
 
 class FormChoiceUsers(forms.Form):
@@ -32,10 +45,12 @@ class FormChoiceUsers(forms.Form):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
+        form = kwargs.pop('form', None)
         super(FormChoiceUsers, self).__init__(*args, **kwargs)
-        if user:
-            self.fields['users_for_share'].choices = get_users(user)
-            self.fields['users_share'].choices = get_users(user)
+        if user and form:
+            u_p, u = get_users(user, form)
+            self.fields['users_for_share'].choices = u
+            self.fields['users_share'].choices = u_p
 
 
 class FormChoiceForm(forms.Form):

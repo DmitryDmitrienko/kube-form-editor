@@ -135,31 +135,52 @@ class ShareView(PermissionsRequiredMixin, FormView):
     form_class = FormChoiceUsers
 
     def get_success_url(self):
-        return reverse('index')
+        return reverse('share', args=(self.kwargs['form_id'],))
 
     def form_valid(self, form):
         context = self.get_context_data(**self.kwargs)
         f = FormModel.objects.get(id=context['form_id'])
         data = form.cleaned_data
-        ShareView.create_permission(data['users_for_share'], f.id, f.name)
+        if 'share_to' in form.data:
+            ShareView.create_permission(data['users_for_share'], f.id, f.name)
+        elif 'share_delete' in form.data:
+            ShareView.delete_permission(data['users_share'], f.id, f.name)
         return super(ShareView, self).form_valid(form)
 
     @staticmethod
     def create_permission(user_list, form_id, form_name):
         content_type = ContentType.objects.get_for_model(FormModel)
         for user in user_list:
-            u = User.objects.get(id=user)
-            s = str_permission(u.username, form_id, form_name)
-            title = "%s can edit %s %s" % (u.username, form_id, form_name)
-            permission = Permission.objects.create(codename=s,
-                                                   name=title,
-                                                   content_type=content_type)
-            u.user_permissions.add(permission)
+            try:
+                u = User.objects.get(id=user)
+                s = str_permission(u.username, form_id, form_name)
+                title = "%s can edit %s %s" % (u.username, form_id, form_name)
+                permission = Permission.objects.create(codename=s,
+                                                       name=title,
+                                                       content_type=content_type)
+                u.user_permissions.add(permission)
+            except Exception as e:
+                print e.message
+
+    @staticmethod
+    def delete_permission(user_list, form_id, form_name):
+        for user in user_list:
+            try:
+                u = User.objects.get(id=user)
+                content_type = ContentType.objects.get_for_model(FormModel)
+                p = Permission.objects.get(codename=str_permission(u.username, form_id, form_name),
+                                           content_type=content_type)
+                u.user_permissions.remove(p)
+                p.delete()
+            except Exception as e:
+                print e.message
+
 
     def get_form(self, form_class):
         kwargs = self.get_form_kwargs()
         kwargs.update({
-            'user': self.request.user
+            'user': self.request.user,
+            'form': FormModel.objects.get(id=self.kwargs['form_id'])
         })
         return self.form_class(**kwargs)
 
@@ -183,7 +204,7 @@ class FormView(PermissionsRequiredMixin, FormView):
 
     def form_valid(self, form):
         data = form.data
-        self.success_url = reverse('form', args=(data['forms']))
+        self.success_url = reverse('form', args=(data['forms'], ))
         return super(FormView, self).form_valid(form)
 
     def get_form(self, form_class):
