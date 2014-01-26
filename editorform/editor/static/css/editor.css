@@ -3,107 +3,108 @@
 }
 
 .center {
-        float: none;
-        margin-left: auto;
-        margin-right: auto;
-    }
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    #sortable {
-        width: 100%;
-        height: 500px;
-        background: #ffffff;
-        overflow: auto;
-    }
+#sortable {
+    width: 100%;
+    height: 500px;
+    background: #ffffff;
+    overflow: auto;
+}
 
-    .toggle {
-        background: #ffffff;
-        margin: 15px 0 0 15px;
-    }
+.toggle {
+    background: #ffffff;
+    margin: 15px 0 0 15px;
+}
 
-    #header {
-        padding-top: 2em;
-    }
+#header {
+    padding-top: 2em;
+}
 
-    #header:after {
-        content: ".";
-        display: block;
-        height: 0;
-        clear: both;
-        visibility: hidden;
-    }
+#header:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
 
-    #header a {
-        color: #000;
-        text-decoration: none;
-    }
+#header a {
+    color: #000;
+    text-decoration: none;
+}
 
-    #header a:hover {
-        color: #000;
-        text-decoration: underline;
-    }
+#header a:hover {
+    color: #000;
+    text-decoration: underline;
+}
 
-    #auth-area {
-        float: right;
-        margin: 0;
-        margin-top: 7px;
-        margin-right: 1.65em;
-        list-style: none;
-        color: #aaa;
-        font-size: 12px;
-    }
+#auth-area {
+    float: right;
+    margin: 0;
+    margin-top: 7px;
+    margin-right: 1.65em;
+    list-style: none;
+    color: #aaa;
+    font-size: 12px;
+}
 
-    #auth-area li {
-        float: left;
-        line-height: 1;
-        margin-right: 5px;
-    }
+#auth-area li {
+    float: left;
+    line-height: 1;
+    margin-right: 5px;
+}
 
-    #auth-area li a,
-    #auth-area li span {
-        display: block;
-        padding: 6px 10px;
-    }
+#auth-area li a,
+#auth-area li span {
+    display: block;
+    padding: 6px 10px;
+}
 
-    #login-link {
-        border: 1px solid #ddd;
-        border-radius: 3px;
-    }
+#login-link {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
 
-    /* =Nav
-    -----------------------------------------------------------------------------*/
-    #nav {
-        float: left;
-    }
+/* =Nav
+-----------------------------------------------------------------------------*/
+#nav {
+    float: left;
+}
 
-    #nav ul {
-        list-style: none;
-        margin: 0;
-    }
+#nav ul {
+    list-style: none;
+    margin: 0;
+}
 
-    #nav ul li {
-        float: left;
-        text-align: center;
-        margin-right: .2em;
-        margin-left: 0%;
-    }
+#nav ul li {
+    float: left;
+    text-align: center;
+    margin-right: .2em;
+    margin-left: 0%;
+}
 
-    #nav ul li:first-child a,
-    #nav ul li:first-child span {
-        border-left: none;
-    }
+#nav ul li:first-child a,
+#nav ul li:first-child span {
+    border-left: none;
+}
 
-    #nav ul li a,
-    #nav ul li span {
-        padding: 12px 2em;
-        line-height: 1;
-        text-decoration: none;
-        display: block;
-        border-left: 1px solid #ddd;
-    }
+#nav ul li a,
+#nav ul li span {
+    padding: 12px 2em;
+    line-height: 1;
+    text-decoration: none;
+    display: block;
+    border-left: 1px solid #ddd;
+}
 
-    #nav ul li span {
-        color: #999;
-    }
+#nav ul li span {
+    color: #999;
+}
+
 #conteiner {
     margin-top: 5%;
 }

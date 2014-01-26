@@ -55,7 +55,7 @@ class FormChoiceUsers(forms.Form):
 
 class FormChoiceForm(forms.Form):
     forms = forms.ModelChoiceField(queryset=FormModel.objects.order_by('created'),
-        widget=forms.Select(attrs={"onChange": 'submit()'}))
+                                   widget=forms.Select(attrs={"onChange": 'submit()'}))
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

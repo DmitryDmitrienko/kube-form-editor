@@ -9,7 +9,7 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import auth_login, logout_then_login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -72,6 +72,19 @@ class AuthenticateView(FormView):
 
 def logout(request):
     return logout_then_login(request, login_url='/login')
+
+
+class CreateUserView(FormView):
+    form_class = UserCreationForm
+    template_name = 'createuser.html'
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def form_valid(self, form):
+        user = form.save()
+        f = super(CreateUserView, self).form_valid(form)
+        return f
 
 
 class MainView(TemplateView):
