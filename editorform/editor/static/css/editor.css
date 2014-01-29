@@ -9,10 +9,11 @@
 }
 
 #sortable {
-    width: 100%;
+    width: 115%;
     height: 500px;
     background: #ffffff;
     overflow: auto;
+    border: 1px dashed black;
 }
 
 .toggle {

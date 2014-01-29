@@ -19,4 +19,40 @@
         {% endif %}
         {% include 'input_field.html' with f=form.forms %}
     </form>
+    <ul class="blocks-3 lists-simple">
+        <li>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+            <h1>Dialog</h1>
+
+        </li>
+        <li>
+            <div id="sortable">
+
+            </div>
+        </li>
+        <li>
+            <ul id="draggable">
+                <li type="text"><label>
+                    Name
+                    <input type="text" name="user-name" size="40"/>
+                </label></li>
+                <li type="checkbox"><p><input name="checkbox-01" type="checkbox"> <label>Name</label></p></li>
+                <li type="select">
+                    <p><label>Select</label><select>
+                        <option>---</option>
+                    </select></p>
+                </li>
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/backbone.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/editor/model.js' %}"></script>
 {% endblock %}
