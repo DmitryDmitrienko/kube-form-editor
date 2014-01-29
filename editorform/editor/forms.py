@@ -20,6 +20,13 @@ class FormForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+
+
 def get_users(user=None, form=None):
     if user is not None and form is not None:
         try:

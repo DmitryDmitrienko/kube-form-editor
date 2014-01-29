@@ -20,7 +20,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from editorform.settings import LOGIN_URL
 from editor.models import FormModel
-from editor.forms import FormForm, FormChoiceUsers, FormChoiceForm
+from editor.forms import FormForm, FormChoiceUsers, FormChoiceForm, UserForm
 
 
 def str_permission(user_name, form_id, form_name):
@@ -82,9 +82,8 @@ class CreateUserView(FormView):
         return reverse('index')
 
     def form_valid(self, form):
-        user = form.save()
-        f = super(CreateUserView, self).form_valid(form)
-        return f
+        form.save()
+        return super(CreateUserView, self).form_valid(form)
 
 
 class MainView(TemplateView):
@@ -188,7 +187,6 @@ class ShareView(PermissionsRequiredMixin, FormView):
             except Exception as e:
                 print e.message
 
-
     def get_form(self, form_class):
         kwargs = self.get_form_kwargs()
         kwargs.update({
@@ -198,7 +196,7 @@ class ShareView(PermissionsRequiredMixin, FormView):
         return self.form_class(**kwargs)
 
 
-class FormView(PermissionsRequiredMixin, FormView):
+class FormEditorView(PermissionsRequiredMixin, FormView):
     template_name = "formview.html"
     form_class = FormChoiceForm
     object = None
@@ -226,3 +224,20 @@ class FormView(PermissionsRequiredMixin, FormView):
             'user': self.request.user
         })
         return self.form_class(**kwargs)
+
+
+class ChangeUserView(UpdateView):
+    context_object_name = 'form'
+    form_class = UserForm
+    template_name = "updateuser.html"
+    model = User
+
+    def get_success_url(self):
+        return reverse('index')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+
+

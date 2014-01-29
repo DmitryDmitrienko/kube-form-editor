@@ -4,4 +4,7 @@
     {% for error in f.errors %}
         <span class="error">{{ error|escape }}</span>
     {% endfor %}
+    {% if f.help_text %}
+        <span class="forms-desc">{{ f.help_text }}</span>
+    {% endif %}
 </p>
