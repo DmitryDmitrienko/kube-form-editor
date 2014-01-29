@@ -21,12 +21,12 @@
             <tbody>
             {% for form in forms %}
                 <tr>
-                    <td><a href="{% url 'form' form.id %}">{{ form.name }}</a></td>
+                    <td><a href="{{ form.get_absolute_url }}">{{ form.name }}</a></td>
                     <td>{{ form.description|truncatechars:50 }}</td>
                     <td>
                         <a href="{% url 'updateform' form.id %}" class="btn btn-blue">Edit</a>
-                        <a href="{% url 'deleteform' form.id %}" class="btn btn-red">Delete</a>
                         <a href="{% url 'share' form.id %}" class="btn btn-orange">Share</a>
+                        <a style="margin-left: 20%" href="{% url 'deleteform' form.id %}" class="btn btn-red">Delete</a>
                     </td>
                 </tr>
             {% endfor %}

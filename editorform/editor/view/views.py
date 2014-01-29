@@ -104,9 +104,6 @@ class CreateFormView(CreateView):
     form_class = FormForm
     model = FormModel
 
-    def get_success_url(self):
-        return reverse('index')
-
     def form_valid(self, form):
         u = self.request.user
         if not u.is_anonymous():
@@ -116,7 +113,7 @@ class CreateFormView(CreateView):
             })
             self.object = self.model(**data)
             self.object.save()
-            return HttpResponseRedirect(self.get_success_url())
+            return redirect(self.object)
         else:
             return super(CreateFormView, self).form_invalid(form)
 

@@ -8,6 +8,11 @@ class FormModel(models.Model):
     created = models.DateField(auto_now_add=True, verbose_name=u'date created')
     description = models.TextField(verbose_name=u'description of form')
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+
+        return reverse('form', args=(self.id, ))
+
     def __unicode__(self):
         return self.name
 
