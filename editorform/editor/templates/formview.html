@@ -19,17 +19,7 @@
         {% endif %}
         {% include 'input_field.html' with f=form.forms %}
     </form>
-    <ul class="blocks-3 lists-simple">
-        <li>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-            <h1>Dialog</h1>
-
-        </li>
+    <ul class="blocks-2 lists-simple">
         <li>
             <div id="sortable">
 
@@ -41,18 +31,38 @@
                     Name
                     <input type="text" name="user-name" size="40"/>
                 </label></li>
-                <li type="checkbox"><p><input name="checkbox-01" type="checkbox"> <label>Name</label></p></li>
+                <li type="checkbox"><label>Name</label> <input name="checkbox-01" type="checkbox"></li>
                 <li type="select">
-                    <p><label>Select</label><select>
+                    <label>Select</label>
+                    <select>
                         <option>---</option>
-                    </select></p>
+                    </select>
                 </li>
             </ul>
         </li>
     </ul>
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/underscore-min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/editor/model.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/editor/view.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/editor/app.js' %}"></script>
 {% endblock %}
+<script type="text/template" id="elementTmp">
+<div class="toggle">
+    <p>
+        <% if (type == 'input') { %>
+            <label>
+                    <%= label %>
+                <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
+            </label>
+        <% } %>
+        <% if (type == 'checkbox') { %>
+            <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>"> <label><%= label %></label>
+        <% } %>
+    </p>
+ </div>
+</script>
