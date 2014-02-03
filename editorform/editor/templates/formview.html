@@ -22,20 +22,48 @@
     <ul class="blocks-2 lists-simple">
         <li>
             <div id="sortable">
+                <script type="text/template" id="elementTmp">
+                    <div class="toggle">
+                        <p>
+                            <% if (type == 'input') { %>
+                                <label>
+                                    <%= label %>
+                                    <input type="<%= typeInput %>" name="<%= name %>" class="width-<%= width %>">
+                                </label>
+                            <% } %>
+                            <% if (type == 'checkbox') { %>
+                                <label><%= label %></label>
+                                <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
+                            <% } %>
+                            <% if (type == 'select') { %>
+                                <label><%= label %></label>
+                                <select name="<%= name %>" class="width-<%= width %>">
+                                    <option>-------------------</option>
+                                </select>
+                            <% } %>
+                            <button class="btn btn-small btn-red del-element" id-element="${id}">x</button>
+                        </p>
+                     </div>
+                </script>
 
             </div>
         </li>
         <li>
             <ul id="draggable">
-                <li type="text"><label>
-                    Name
-                    <input type="text" name="user-name" size="40"/>
-                </label></li>
-                <li type="checkbox"><label>Name</label> <input name="checkbox-01" type="checkbox"></li>
+                <li type="text">
+                    <label>
+                        Name
+                        <input type="text" name="user-name" size="40"/>
+                    </label>
+                </li>
+                <li type="checkbox">
+                    <label>Name</label>
+                    <input name="checkbox-01" type="checkbox">
+                </li>
                 <li type="select">
                     <label>Select</label>
                     <select>
-                        <option>---</option>
+                        <option>-------------------</option>
                     </select>
                 </li>
             </ul>
@@ -51,18 +79,3 @@
     <script type="text/javascript" src="{% static 'js/editor/view.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/editor/app.js' %}"></script>
 {% endblock %}
-<script type="text/template" id="elementTmp">
-<div class="toggle">
-    <p>
-        <% if (type == 'input') { %>
-            <label>
-                    <%= label %>
-                <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
-            </label>
-        <% } %>
-        <% if (type == 'checkbox') { %>
-            <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>"> <label><%= label %></label>
-        <% } %>
-    </p>
- </div>
-</script>

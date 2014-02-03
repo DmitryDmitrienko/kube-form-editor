@@ -114,3 +114,7 @@
 #conteiner {
     margin-top: 5%;
 }
+
+.del-element {
+    float: right;
+}

@@ -5,7 +5,7 @@
 var ElementModel = Backbone.Model.extend({
     defaults: {
         name: 'name',
-        width: 100,
+        width: 70,
         description: '-',
         type: 'input',
         label: 'Name',
@@ -13,22 +13,25 @@ var ElementModel = Backbone.Model.extend({
 
     },
     initialize: function () {
-    },
-    validate: function (attrs) {
-
     }
 });
 
 var InputElement = ElementModel.extend({
-    defaults: {
-        typeInput: 'text'
+    initialize: function () {
+        this.attributes.typeInput = 'text';
     }
 
 });
 
 var CheckBoxElement = ElementModel.extend({
-    constructor: function () {
-        this.type = 'checkbox';
+    initialize: function () {
+        this.attributes.type = 'checkbox';
+    }
+});
+
+var SelectElement = ElementModel.extend({
+    initialize: function () {
+        this.attributes.type = 'select';
     }
 });
 
