@@ -24,25 +24,28 @@
             <div id="sortable">
                 <script type="text/template" id="elementTmp">
                     <div class="toggle">
-                        <p>
-                            <% if (type == 'input') { %>
-                                <label>
-                                    <%= label %>
-                                    <input type="<%= typeInput %>" name="<%= name %>" class="width-<%= width %>">
-                                </label>
-                            <% } %>
-                            <% if (type == 'checkbox') { %>
-                                <label><%= label %></label>
-                                <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
-                            <% } %>
-                            <% if (type == 'select') { %>
-                                <label><%= label %></label>
-                                <select name="<%= name %>" class="width-<%= width %>">
-                                    <option>-------------------</option>
-                                </select>
-                            <% } %>
+                            <div class="element">
+                                <% if (type == 'input') { %>
+                                    <label>
+                                        <%= label %>
+                                        <input type="<%= typeInput %>" name="<%= name %>" class="width-<%= width %>">
+                                        <div class="forms-desc"><%= description %></div>
+                                    </label>
+                                <% } %>
+                                <% if (type == 'checkbox') { %>
+                                    <label><%= label %></label>
+                                    <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
+                                    <div class="forms-desc"><%= description %></div>
+                                <% } %>
+                                <% if (type == 'select') { %>
+                                    <label><%= label %></label>
+                                    <select name="<%= name %>" class="width-<%= width %>">
+                                        <option>-------------------</option>
+                                    </select>
+                                    <div class="forms-desc"><%= description %></div>
+                                <% } %>
+                            </div>
                             <button class="btn btn-small btn-red del-element" id-element="${id}">x</button>
-                        </p>
                      </div>
                 </script>
 
@@ -69,10 +72,46 @@
             </ul>
         </li>
     </ul>
+    <div id="myModal" class="modal fade" style="display: none">
+        <script type="text/template" id="dialogTmp">
+            <div class="forms forms-columnar dialogScript" style="margin: 5%;">
+                <p>
+                    <label>Name</label>
+                    <input id="textName" type="text" name="name-name" class="width-100" value="<%= name %>"/>
+                </p>
+                <p>
+                    <label>Width</label>
+                    <select id="widthValue" name="value-width" class="width-50">
+			            <option>20</option>
+			            <option>25</option>
+			            <option>30</option>
+			            <option>33</option>
+			            <option>40</option>
+			            <option>50</option>
+			            <option>60</option>
+			            <option>66</option>
+			            <option>70</option>
+			            <option>75</option>
+			            <option>80</option>
+			            <option>100</option>
+		            </select>
+                </p>
+                <p>
+                    <label>Description</label>
+                    <input id="textDescription" type="text" name="name-name" class="width-100" value="<%= description %>"/>
+                </p>
+                <p>
+                    <button class="btn btn-blue btnModal">Update</button>
+                </p>
+            </div>
+        </script>
+    </div>
 {% endblock %}
 {% block scripts %}
-    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-1.10.2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootbox.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui-1.10.4.custom.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/underscore-min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/editor/model.js' %}"></script>

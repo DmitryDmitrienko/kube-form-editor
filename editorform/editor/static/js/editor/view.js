@@ -2,10 +2,34 @@
  * Created by Dmitry Dmitrienko on 30.01.14.
  * dmitry.dmitrienko@outlook.com
  */
+var DialogEditorView = Backbone.View.extend({
+    template: $('#dialogTmp').html(),
+    events: {
+        'click .btnModal': 'closeDialog'
+    },
+    initialize: function () {
+    },
+    render: function () {
+        var templ = _.template(this.template);
+        var view = templ(this.model.toJSON());
+        this.$el.html(view);
+        return this.$el;
+    },
+    closeDialog: function () {
+        this.model.set({
+            name: $("#textName").val(),
+            width: $("#widthValue option:selected").text(),
+            description: $("#textDescription").val()
+        });
+        $(".dialogScript").remove();
+        $("#myModal").dialog('close');
+    }
+});
 var ElementView = Backbone.View.extend({
     template: $('#elementTmp').html(),
     events: {
-        'click .del-element': 'deleteElement'
+        'click .del-element': 'deleteElement',
+        'click .element': 'modalDialog'
     },
     initialize: function () {
         this.listenTo(this.model, 'change', this.render);
@@ -19,6 +43,20 @@ var ElementView = Backbone.View.extend({
     },
     deleteElement: function () {
         this.model.destroy();
+    },
+    modalDialog: function () {
+        var dlg = new DialogEditorView({model: this.model});
+        $("#myModal").prepend(dlg.render());
+        $('#myModal').dialog({
+            height: 400,
+            width: 500,
+            modal: true,
+            resizable: true,
+            dialogClass: 'no-close success-dialog',
+            close: function (e, ui) {
+                $(".dialogScript").remove();
+            }
+        });
     }
 });
 
