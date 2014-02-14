@@ -29,20 +29,26 @@
                                     <label>
                                         <%= label %>
                                         <input type="<%= typeInput %>" name="<%= name %>" class="width-<%= width %>">
-                                        <div class="forms-desc"><%= description %></div>
+                                        <% if (description != '' && description != '-') { %>
+                                            <div class="forms-desc"><%= description %></div>
+                                        <% } %>
                                     </label>
                                 <% } %>
                                 <% if (type == 'checkbox') { %>
                                     <label><%= label %></label>
                                     <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
-                                    <div class="forms-desc"><%= description %></div>
+                                    <% if (description != '' || description != '-') { %>
+                                        <div class="forms-desc"><%= description %></div>
+                                    <% } %>
                                 <% } %>
                                 <% if (type == 'select') { %>
                                     <label><%= label %></label>
                                     <select name="<%= name %>" class="width-<%= width %>">
                                         <option>-------------------</option>
                                     </select>
-                                    <div class="forms-desc"><%= description %></div>
+                                    <% if (description != '' || description != '-') { %>
+                                        <div class="forms-desc"><%= description %></div>
+                                    <% } %>
                                 <% } %>
                             </div>
                             <button class="btn btn-small btn-red del-element" id-element="${id}">x</button>
@@ -74,7 +80,11 @@
     </ul>
     <div id="myModal" class="modal fade" style="display: none">
         <script type="text/template" id="dialogTmp">
-            <div class="forms forms-columnar dialogScript" style="margin: 5%;">
+            <div class="forms forms-columnar dialogScript">
+                <p>
+                    <label>Label</label>
+                    <input id="textLabel" type="text" name="name-label" class="width-100" value="<%= label %>"/>
+                </p>
                 <p>
                     <label>Name</label>
                     <input id="textName" type="text" name="name-name" class="width-100" value="<%= name %>"/>
@@ -100,6 +110,27 @@
                     <label>Description</label>
                     <input id="textDescription" type="text" name="name-name" class="width-100" value="<%= description %>"/>
                 </p>
+                <% if (type == 'input') { %>
+                    <p>
+                        <label>Type input</label>
+                        <select id="typeInput" name="value-type" class="width-50">
+                            <option>text</option>
+                            <option>email</option>
+                            <option>datetime-local</option>
+                            <option>tel</option>
+                            <option>date</option>
+                            <option>search</option>
+		                </select>
+                    </p>
+                <% } %>
+                <% if (type == 'select') { %>
+                    <p>
+                        <label>Options</label>
+                        <textarea id="options" name="option-select" rows="5" class="width-100"><% _.each(selectOptions, function(value) { %>
+<%= value %><% }); %>
+                        </textarea>
+                    </p>
+                <% } %>
                 <p>
                     <button class="btn btn-blue btnModal">Update</button>
                 </p>

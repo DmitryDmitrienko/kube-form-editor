@@ -19,8 +19,22 @@ var DialogEditorView = Backbone.View.extend({
         this.model.set({
             name: $("#textName").val(),
             width: $("#widthValue option:selected").text(),
-            description: $("#textDescription").val()
+            description: $("#textDescription").val(),
+            label: $("#textLabel").val()
         });
+        if (this.model.attributes.type === 'input') {
+            this.model.set({
+                typeInput: $("#typeInput option:selected").text()
+            });
+        }
+        if (this.model.attributes.type === 'select') {
+            var arrayOptions = $("#options").split('\n');
+            for (var option in arrayOptions) {
+                this.model.set({
+                    selectOptions: arrayOptions
+                })
+            }
+        }
         $(".dialogScript").remove();
         $("#myModal").dialog('close');
     }
@@ -55,7 +69,8 @@ var ElementView = Backbone.View.extend({
             dialogClass: 'no-close success-dialog',
             close: function (e, ui) {
                 $(".dialogScript").remove();
-            }
+            },
+            position: { my: "left top", at: "left bottom", of: "#draggable" }
         });
     }
 });
@@ -68,17 +83,22 @@ var ElementsEditorView = Backbone.View.extend({
     },
 
     addElement: function (type) {
+        this.coll.add(this.newElement(type));
+    },
+
+    newElement: function (type) {
         if (type === 'text') {
-            this.coll.add(new InputElement());
+            return new InputElement();
         }
         else if (type === 'checkbox') {
-            this.coll.add(new CheckBoxElement());
+            return new CheckBoxElement();
         }
         else if (type === 'select') {
-            this.coll.add(new SelectElement());
+            return new SelectElement();
         }
         else {
-            //
+            console.log("unknown type");
+            return {};
         }
     },
 
