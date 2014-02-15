@@ -44,7 +44,11 @@
                                 <% if (type == 'select') { %>
                                     <label><%= label %></label>
                                     <select name="<%= name %>" class="width-<%= width %>">
-                                        <option>-------------------</option>
+                                        <% if (selectOptions.length > 0 ) { %>
+                                        <% _.each(selectOptions, function(value) { %>
+%> <option> <%= value %> </option><% }); %>
+                                        <% } %>
+
                                     </select>
                                     <% if (description != '' || description != '-') { %>
                                         <div class="forms-desc"><%= description %></div>

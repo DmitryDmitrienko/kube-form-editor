@@ -28,7 +28,8 @@ var DialogEditorView = Backbone.View.extend({
             });
         }
         if (this.model.attributes.type === 'select') {
-            var arrayOptions = $("#options").split('\n');
+            var arrayOptions = $("#options").val().split('\n');
+            console.log(arrayOptions);
             for (var option in arrayOptions) {
                 this.model.set({
                     selectOptions: arrayOptions

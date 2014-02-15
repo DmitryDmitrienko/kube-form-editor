@@ -32,7 +32,7 @@ var CheckBoxElement = ElementModel.extend({
 var SelectElement = ElementModel.extend({
     initialize: function () {
         this.attributes.type = 'select';
-        this.attributes.selectOptions = ['value1','value2'];
+        this.attributes.selectOptions = [];
     }
 });
 
