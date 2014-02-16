@@ -23,7 +23,7 @@
         <li>
             <div id="sortable">
                 <script type="text/template" id="elementTmp">
-                    <div class="toggle">
+                    <div class="toggle" id="<%= idServer %>" number="<%= number %>">
                             <div class="element">
                                 <% if (type == 'input') { %>
                                     <label>
@@ -37,7 +37,7 @@
                                 <% if (type == 'checkbox') { %>
                                     <label><%= label %></label>
                                     <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
-                                    <% if (description != '' || description != '-') { %>
+                                    <% if (description != '' && description != '-') { %>
                                         <div class="forms-desc"><%= description %></div>
                                     <% } %>
                                 <% } %>
@@ -50,7 +50,7 @@
                                         <% } %>
 
                                     </select>
-                                    <% if (description != '' || description != '-') { %>
+                                    <% if (description != '' && description != '-') { %>
                                         <div class="forms-desc"><%= description %></div>
                                     <% } %>
                                 <% } %>
@@ -82,6 +82,49 @@
             </ul>
         </li>
     </ul>
+    <div class="units-row">
+        <div class="unit-centered unit-100" id="formViewBlock">
+            <script type="text/template" id="formTmp">
+<form method="post" action="" class="forms forms-columnar">
+<% _.each(elements, function(element)  { %>
+    <p>
+        <% if (element.type == 'input') { %>
+            <label>
+                <%= element.label %>
+                <input type="<%= element.typeInput %>" name="<%= element.name %>" class="width-<%= element.width %>">
+                <% if (element.description != '' && element.description != '-') { %>
+                    <div class="forms-desc"><%= element.description %></div>
+                <% } %>
+            </label>
+        <% } %>
+        <% if (element.type == 'checkbox') { %>
+            <label><%= element.label %></label>
+            <input type="<%= element.type %>" name="<%= element.name %>" class="width-<%= element.width %>">
+            <% if (element.description != '' && element.description != '-') { %>
+                <div class="forms-desc"><%= element.description %></div>
+            <% } %>
+        <% } %>
+        <% if (element.type == 'select') { %>
+            <label><%= element.label %></label>
+            <select name="<%= element.name %>" class="width-<%= element.width %>">
+                <% if (element.selectOptions.length > 0 ) { %>
+                <% _.each(element.selectOptions, function(value) { %>
+                <option> <%= value %> </option><% }); %>
+                <% } %>
+            </select>
+            <% if (element.description != '' && element.description != '-') { %>
+                <div class="forms-desc"><%= element.description %></div>
+            <% } %>
+        <% } %>
+    </p>
+<% }); %>
+</form>
+                </script>
+            <button class=".btn btn-blue" id="viewForm">View form</button>
+            <textarea id="formBody" name="form-body" rows="50" cols="40" class="width-100">
+            </textarea>
+        </div>
+    </div>
     <div id="myModal" class="modal fade" style="display: none">
         <script type="text/template" id="dialogTmp">
             <div class="forms forms-columnar dialogScript">
@@ -141,6 +184,7 @@
             </div>
         </script>
     </div>
+
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript" src="{% static 'js/jquery-1.10.2.js' %}"></script>

@@ -4,6 +4,7 @@
  */
 var ElementModel = Backbone.Model.extend({
     defaults: {
+        idServer: -1,
         name: 'name',
         width: 70,
         description: '-',

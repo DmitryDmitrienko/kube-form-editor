@@ -36,8 +36,8 @@ var DialogEditorView = Backbone.View.extend({
                 })
             }
         }
-        $(".dialogScript").remove();
         $("#myModal").dialog('close');
+        $(".dialogScript").remove();
     }
 });
 var ElementView = Backbone.View.extend({
@@ -106,6 +106,26 @@ var ElementsEditorView = Backbone.View.extend({
     addOne: function (model) {
         var view = new ElementView({model: model});
         this.$el.append(view.render());
+        $(".dialogScript").remove();
+    },
+    sort: function () {
+        $(".toggle").each(function (index, value) {
+            $(this).attr("number", index + 1);
+        });
     }
 
+});
+
+var TemplateFormView = Backbone.View.extend({
+    template: $('#formTmp').html(),
+    render: function () {
+        console.log(this.coll);
+        var templ = _.template(this.template);
+        var view = templ({elements: this.coll.toJSON()});
+        this.$el.html(view);
+        $("#formBody").val(view);
+    },
+    setColl: function (collecction) {
+        this.coll = collecction;
+    }
 });

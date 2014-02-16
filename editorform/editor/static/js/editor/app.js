@@ -20,6 +20,16 @@ $(document).ready(function () {
                 app.editorView.addElement(type);
                 $(ui.item).remove();
             }
+            app.editorView.sort();
+            $(".dialogScript").remove();
         }
+    });
+    $("#viewForm").click(function () {
+        //$(this).find('form').remove();
+        var viewForm = new TemplateFormView({
+            coll: app.editorView.coll
+        });
+        viewForm.setColl(app.editorView.coll);
+        viewForm.render();
     });
 });
