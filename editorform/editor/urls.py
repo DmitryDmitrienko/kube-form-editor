@@ -9,8 +9,11 @@ __email__ = "dmitry.dmitrienko@outlook.com"
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from .view.views import MainView, CreateFormView, AuthenticateView, UpdateFormView, DeleteFormView, ShareView, FormEditorView, \
+from .view.views import MainView, CreateFormView, AuthenticateView, UpdateFormView, DeleteFormView, ShareView, \
+    FormEditorView, \
     CreateUserView, ChangeUserView
+from .view.ajax.elements import ElementCollectionAjaxView, ElementSingleAjaxView
+
 
 url_editor = patterns('',
                       url(r'^login$', AuthenticateView.as_view(), name='login'),
@@ -22,8 +25,13 @@ url_editor = patterns('',
                       url(r'^deleteform/(?P<form_id>\d+)$', login_required(DeleteFormView.as_view()),
                           name='deleteform'),
                       url(r'^share/(?P<form_id>\d+)$', login_required(ShareView.as_view()), name='share'),
-                      url(r'^form/(?P<form_id>\d+)$', login_required(FormEditorView.as_view()), name='form'),
+                      url(r'^form/(?P<form_id>\d+)/$', login_required(FormEditorView.as_view()), name='form'),
                       url(r'^updateuser', login_required(ChangeUserView.as_view()), name='updateuser'),
                       url(r'^createuser$', CreateUserView.as_view(), name='createuser'),
+                      #ajax
+                      url(r'^form/(?P<form_id>\d+)/ajax/elementcollection',
+                          ElementCollectionAjaxView.as_view(), name='elementcollection'),
+                      url(r'^form/(?P<form_id>\d+)/ajax/element/(?P<element_id>\d+)',
+                          ElementSingleAjaxView.as_view(), name='elementsingle')
 
 )

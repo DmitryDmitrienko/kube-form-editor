@@ -8,6 +8,7 @@ var DialogEditorView = Backbone.View.extend({
         'click .btnModal': 'closeDialog'
     },
     initialize: function () {
+        $(".dialogScript").remove();
     },
     render: function () {
         var templ = _.template(this.template);
@@ -22,12 +23,12 @@ var DialogEditorView = Backbone.View.extend({
             description: $("#textDescription").val(),
             label: $("#textLabel").val()
         });
-        if (this.model.attributes.type === 'input') {
+        if (this.model.attributes.type_element === 'input') {
             this.model.set({
                 typeInput: $("#typeInput option:selected").text()
             });
         }
-        if (this.model.attributes.type === 'select') {
+        if (this.model.attributes.type_element === 'select') {
             var arrayOptions = $("#options").val().split('\n');
             console.log(arrayOptions);
             for (var option in arrayOptions) {
@@ -57,7 +58,18 @@ var ElementView = Backbone.View.extend({
         return this.$el;
     },
     deleteElement: function () {
-        this.model.destroy();
+        var self = this;
+        $.ajax({
+                data: {},
+                dataTypeString: 'json',
+                success: function (data) {
+                    if (data.success === true) {
+                        self.model.destroy();
+                    }
+                },
+                type: "DELETE",
+                url: "ajax/element/" + this.model.attributes.idServer
+            });
     },
     modalDialog: function () {
         var dlg = new DialogEditorView({model: this.model});
@@ -81,10 +93,44 @@ var ElementsEditorView = Backbone.View.extend({
     initialize: function () {
         this.coll = new ElementCollection();
         this.listenTo(this.coll, 'add', this.addOne);
+        var self = this;
+        $.ajax({
+            data: '',
+            dataTypeString: 'json',
+            success: function (data) {
+                if (data.success === true) {
+                    var data = data.data;
+                    for (var i = 0; i < data.length; i++) {
+                        self.coll.add(self.addDataElement(data[i]));
+                    }
+                }
+            },
+            type: "GET",
+            url: "ajax/elementcollection"
+        });
     },
 
     addElement: function (type) {
-        this.coll.add(this.newElement(type));
+        var self = this;
+        var element = this.newElement(type);
+        $.ajax({
+            data: element.toJSON(),
+            dataTypeString: 'json',
+            success: function (data) {
+                if (data.success === true) {
+                    var data = data.data;
+                    id_element = data.idServer;
+                    if (id_element > 0) {
+                        element.set({
+                            idServer: id_element
+                        });
+                        self.coll.add(element);
+                    }
+                }
+            },
+            type: "POST",
+            url: "ajax/elementcollection"
+        });
     },
 
     newElement: function (type) {
@@ -102,7 +148,21 @@ var ElementsEditorView = Backbone.View.extend({
             return {};
         }
     },
-
+    addDataElement: function (data) {
+        if (data.type === 'input') {
+            return new InputElement(data);
+        }
+        else if (data.type === 'checkbox') {
+            return new CheckBoxElement(data);
+        }
+        else if (data.type === 'select') {
+            return new SelectElement(data);
+        }
+        else {
+            console.log("unknown type");
+            return {};
+        }
+    },
     addOne: function (model) {
         var view = new ElementView({model: model});
         this.$el.append(view.render());

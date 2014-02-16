@@ -8,7 +8,7 @@ var ElementModel = Backbone.Model.extend({
         name: 'name',
         width: 70,
         description: '-',
-        type: 'input',
+        type_element: 'input',
         label: 'Name',
         number: -1
 
@@ -26,13 +26,13 @@ var InputElement = ElementModel.extend({
 
 var CheckBoxElement = ElementModel.extend({
     initialize: function () {
-        this.attributes.type = 'checkbox';
+        this.attributes.type_element = 'checkbox';
     }
 });
 
 var SelectElement = ElementModel.extend({
     initialize: function () {
-        this.attributes.type = 'select';
+        this.attributes.type_element = 'select';
         this.attributes.selectOptions = [];
     }
 });

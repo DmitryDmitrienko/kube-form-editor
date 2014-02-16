@@ -23,7 +23,11 @@ class ElementForm(models.Model):
     description = models.CharField(max_length=120, verbose_name=u'description element')
     width = models.IntegerField(verbose_name=u'width element')
     name = models.CharField(max_length=20, verbose_name=u'name element')
+    type_input = models.CharField(max_length=20, verbose_name=u'type input', default='-')
+    options = models.TextField(verbose_name=u'options select')
+    number = models.IntegerField(verbose_name=u'number element', default=-1)
     form = models.ForeignKey(FormModel, verbose_name=u'form of element')
+
 
     def __unicode__(self):
         return u'%s type: %s' % (self.form.name, self.type_element)

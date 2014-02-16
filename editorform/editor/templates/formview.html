@@ -25,7 +25,7 @@
                 <script type="text/template" id="elementTmp">
                     <div class="toggle" id="<%= idServer %>" number="<%= number %>">
                             <div class="element">
-                                <% if (type == 'input') { %>
+                                <% if (type_element == 'input') { %>
                                     <label>
                                         <%= label %>
                                         <input type="<%= typeInput %>" name="<%= name %>" class="width-<%= width %>">
@@ -34,14 +34,14 @@
                                         <% } %>
                                     </label>
                                 <% } %>
-                                <% if (type == 'checkbox') { %>
+                                <% if (type_element == 'checkbox') { %>
                                     <label><%= label %></label>
-                                    <input type="<%= type %>" name="<%= name %>" class="width-<%= width %>">
+                                    <input type="<%= type_element %>" name="<%= name %>" class="width-<%= width %>">
                                     <% if (description != '' && description != '-') { %>
                                         <div class="forms-desc"><%= description %></div>
                                     <% } %>
                                 <% } %>
-                                <% if (type == 'select') { %>
+                                <% if (type_element == 'select') { %>
                                     <label><%= label %></label>
                                     <select name="<%= name %>" class="width-<%= width %>">
                                         <% if (selectOptions.length > 0 ) { %>
@@ -88,7 +88,7 @@
 <form method="post" action="" class="forms forms-columnar">
 <% _.each(elements, function(element)  { %>
     <p>
-        <% if (element.type == 'input') { %>
+        <% if (element.type_element == 'input') { %>
             <label>
                 <%= element.label %>
                 <input type="<%= element.typeInput %>" name="<%= element.name %>" class="width-<%= element.width %>">
@@ -97,14 +97,14 @@
                 <% } %>
             </label>
         <% } %>
-        <% if (element.type == 'checkbox') { %>
+        <% if (element.type_element == 'checkbox') { %>
             <label><%= element.label %></label>
-            <input type="<%= element.type %>" name="<%= element.name %>" class="width-<%= element.width %>">
+            <input type="<%= element.type_element %>" name="<%= element.name %>" class="width-<%= element.width %>">
             <% if (element.description != '' && element.description != '-') { %>
                 <div class="forms-desc"><%= element.description %></div>
             <% } %>
         <% } %>
-        <% if (element.type == 'select') { %>
+        <% if (element.type_element == 'select') { %>
             <label><%= element.label %></label>
             <select name="<%= element.name %>" class="width-<%= element.width %>">
                 <% if (element.selectOptions.length > 0 ) { %>
@@ -157,7 +157,7 @@
                     <label>Description</label>
                     <input id="textDescription" type="text" name="name-name" class="width-100" value="<%= description %>"/>
                 </p>
-                <% if (type == 'input') { %>
+                <% if (type_element == 'input') { %>
                     <p>
                         <label>Type input</label>
                         <select id="typeInput" name="value-type" class="width-50">
@@ -170,7 +170,7 @@
 		                </select>
                     </p>
                 <% } %>
-                <% if (type == 'select') { %>
+                <% if (type_element == 'select') { %>
                     <p>
                         <label>Options</label>
                         <textarea id="options" name="option-select" rows="5" class="width-100"><% _.each(selectOptions, function(value) { %>
