@@ -48,8 +48,22 @@ var ElementView = Backbone.View.extend({
         'click .element': 'modalDialog'
     },
     initialize: function () {
-        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'change', this.updateElement);
         this.listenTo(this.model, 'destroy', this.remove);
+    },
+    updateElement: function () {
+        var self = this;
+        $.ajax({
+            data: JSON.stringify(self.model.toJSON()),
+            dataTypeString: 'json',
+            success: function (data) {
+                if (data.success === true) {
+                    self.render();
+                }
+            },
+            type: "PUT",
+            url: "ajax/element/" + self.model.attributes.idServer
+        });
     },
     render: function () {
         var templ = _.template(this.template);
@@ -60,16 +74,16 @@ var ElementView = Backbone.View.extend({
     deleteElement: function () {
         var self = this;
         $.ajax({
-                data: {},
-                dataTypeString: 'json',
-                success: function (data) {
-                    if (data.success === true) {
-                        self.model.destroy();
-                    }
-                },
-                type: "DELETE",
-                url: "ajax/element/" + this.model.attributes.idServer
-            });
+            data: {},
+            dataTypeString: 'json',
+            success: function (data) {
+                if (data.success === true) {
+                    self.model.destroy();
+                }
+            },
+            type: "DELETE",
+            url: "ajax/element/" + this.model.attributes.idServer
+        });
     },
     modalDialog: function () {
         var dlg = new DialogEditorView({model: this.model});
@@ -113,6 +127,9 @@ var ElementsEditorView = Backbone.View.extend({
     addElement: function (type) {
         var self = this;
         var element = this.newElement(type);
+        element.set({
+            number: self.coll.length + 1
+        });
         $.ajax({
             data: element.toJSON(),
             dataTypeString: 'json',
@@ -156,7 +173,9 @@ var ElementsEditorView = Backbone.View.extend({
             return new CheckBoxElement(data);
         }
         else if (data.type === 'select') {
-            return new SelectElement(data);
+            var s = new SelectElement(data);
+            s.attributes.selectOptions = data.selectOptions;
+            return s;
         }
         else {
             console.log("unknown type");
@@ -169,8 +188,27 @@ var ElementsEditorView = Backbone.View.extend({
         $(".dialogScript").remove();
     },
     sort: function () {
+        var data = [];
         $(".toggle").each(function (index, value) {
-            $(this).attr("number", index + 1);
+            var element = $(this);
+            element.attr("number", index + 1);
+            var id = element.attr("id");
+            data.push({
+                id: id,
+                number: index + 1
+            });
+        });
+        var json_data = JSON.stringify(data);
+        $.ajax({
+            data: json_data,
+            dataTypeString: 'json',
+            success: function (data) {
+                if (data.success === true) {
+                    console.log('update numbers');
+                }
+            },
+            type: "PUT",
+            url: "ajax/updatenumbers"
         });
     }
 

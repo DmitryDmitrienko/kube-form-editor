@@ -32,6 +32,8 @@ url_editor = patterns('',
                       url(r'^form/(?P<form_id>\d+)/ajax/elementcollection',
                           ElementCollectionAjaxView.as_view(), name='elementcollection'),
                       url(r'^form/(?P<form_id>\d+)/ajax/element/(?P<element_id>\d+)',
-                          ElementSingleAjaxView.as_view(), name='elementsingle')
+                          ElementSingleAjaxView.as_view(), name='elementsingle'),
+                      url(r'^form/(?P<form_id>\d+)/ajax/updatenumbers',
+                          'editor.view.ajax.elements.update_number', name='updatenumbers'),
 
 )

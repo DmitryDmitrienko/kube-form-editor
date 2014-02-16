@@ -9,6 +9,7 @@ import json
 
 from django.views.generic.edit import ProcessFormView
 from django.views.generic.edit import DeletionMixin
+from django.views.decorators.http import require_http_methods
 
 from .response import ErrorAjaxResponse, SuccessAjaxResponse
 from editor.models import FormModel, ElementForm
@@ -38,7 +39,7 @@ class ElementCollectionAjaxView(ProcessFormView):
     def get(self, request, *args, **kwargs):
         try:
             form_id = kwargs['form_id']
-            elements = ElementForm.objects.filter(form=FormModel.objects.get(id=form_id))
+            elements = ElementForm.objects.filter(form=FormModel.objects.get(id=form_id)).order_by('number')
             return SuccessAjaxResponse(data=[element_to_ajax(e) for e in elements])
         except Exception as e:
             print e.message
@@ -74,7 +75,27 @@ class ElementSingleAjaxView(ProcessFormView, DeletionMixin):
             data = json.loads(self.request.body)
             element_id = kwargs['element_id']
             form_id = kwargs['form_id']
-            element = ElementForm.objects.get(id=element_id).update(**data)
+            if 'typeInput' in data:
+                t = data['typeInput']
+                del data['typeInput']
+                data.update({
+                    'type_input': t
+                })
+            if 'type' in data:
+                del data['type']
+            if 'selectOptions' in data:
+                o = data['selectOptions']
+                text = ""
+                for _o in o:
+                    text += _o + '\n'
+                del data['selectOptions']
+                data.update({
+                    'options': text
+                })
+            del data['idServer']
+            data['number'] = int(data['number'])
+            data['width'] = int(data['width'])
+            element = ElementForm.objects.filter(id=element_id).update(**data)
             return SuccessAjaxResponse()
         except Exception as e:
             print e.message
@@ -88,3 +109,17 @@ class ElementSingleAjaxView(ProcessFormView, DeletionMixin):
         except Exception as e:
             print e.message
             return ErrorAjaxResponse()
+
+
+@require_http_methods(["PUT"])
+def update_number(request, *args, **kwargs):
+    try:
+        data = json.loads(request.body)
+        form_id = kwargs['form_id']
+        for element in data:
+            ElementForm.objects.filter(id=element['id'], form=FormModel.objects.get(id=form_id)).update(
+                number=element['number'])
+        return SuccessAjaxResponse()
+    except Exception as e:
+        print e.message
+        return ErrorAjaxResponse()
